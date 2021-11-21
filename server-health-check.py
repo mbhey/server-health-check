@@ -25,7 +25,8 @@ import platform
 # --------------------------------------------------------------------- #
 # Add local lib path
 pathname = os.path.dirname(sys.argv[0])
-sys.path.append(os.path.abspath(pathname) + "/modules/")
+print(pathname)
+sys.path.append(os.path.abspath(pathname) + "/modules")
 
 # Import MFW Lib General
 from mfw_lib_general import get_network_ip
@@ -33,7 +34,7 @@ from mfw_lib_general import get_timestamp
 from mfw_lib_general import get_hostname
 from mfw_lib_general import get_osversion
 from mfw_lib_general import get_external_ip
-from mfw_lib_general import read_cfg_discrod
+# from mfw_lib_general import read_cfg_discrod
 
 # Import MFW Status
 from mfw_lib_status import get_uptime
@@ -71,26 +72,26 @@ from mfw_lib_status import get_neofetch
 
 # --------------------------------------------------------------------- #
 # Import Discord Webhook module
-from mfw_lib_discord import Webhook
+# from mfw_lib_discord import Webhook
 
 # --------------------------------------------------------------------- #
 # Read Discord Configuration
-discord_config = read_cfg_discrod(os.path.abspath(pathname) + "/config/discord.cfg")
+# discord_config = read_cfg_discrod(os.path.abspath(pathname) + "/config/discord.cfg")
 
 # --------------------------------------------------------------------- #
 # Define allowed hostname to run
-HOST_ERIC = "eric-ws"
-HOST_NORC = "norc"
-HOST_XPS = "xps13"
-HOST_NORCCluster01 = "raspi"
-HOST_NORCCluster02 = "raspi-standby"
+HOST = "mohamed-VirtualBox"
+# HOST_NORC = "norc"
+# HOST_XPS = "xps13"
+# HOST_NORCCluster01 = "raspi"
+# HOST_NORCCluster02 = "raspi-standby"
 
 # WebHook Discord Key
-norc_webhook = discord_config.get('discord_webhook', 'norc')
-xps13_webhook = discord_config.get('discord_webhook', 'xps13')
-NORC_Cluster_01_webhook = discord_config.get('discord_webhook', 'norc-cluster-r01')
-NORC_Cluster_02_webhook = discord_config.get('discord_webhook', 'norc-cluster-r02')
-eric_webhook = discord_config.get('discord_webhook', 'eric')
+# norc_webhook = discord_config.get('discord_webhook', 'norc')
+# xps13_webhook = discord_config.get('discord_webhook', 'xps13')
+# NORC_Cluster_01_webhook = discord_config.get('discord_webhook', 'norc-cluster-r01')
+# NORC_Cluster_02_webhook = discord_config.get('discord_webhook', 'norc-cluster-r02')
+# eric_webhook = discord_config.get('discord_webhook', 'eric')
 
 # --------------------------------------------------------------------- #
 def gather_info():
@@ -108,9 +109,9 @@ def gather_info():
     msg_desc += "Sessions = " + get_sessioncount() + " sessions \n"
     # msg_desc += "Processes = " + get_processcount() + " running processes of " + get_processmax() + " maximum processes \n"
     msg_desc += "Processes = " + get_processcount() + " \n"
-    php_version = get_phpversion()
-    if php_version != "ERROR":
-        msg_desc += "PHP Info = Version: " + php_version + "\n"
+    # php_version = get_phpversion()
+    # if php_version != "ERROR":
+    #     msg_desc += "PHP Info = Version: " + php_version + "\n"msg_desc
     http_version = get_httpversion()
     if http_version != "ERROR":
         msg_desc += "Apache Info = Version: " + http_version + "\n"
@@ -118,42 +119,43 @@ def gather_info():
     return msg_desc
 
 # --------------------------------------------------------------------- #
-def send_report_discord(discord_Webhook, msg_desc):
-    """ send_report_discord """
-    embed = Webhook(discord_Webhook, color=1234123, msg='`Server Status Report:`')
-    embed.set_title(title='System Overview - '+get_hostname(), url='http://www.mfwlab.com/')
-    embed.set_desc(msg_desc)
-    embed.set_thumbnail('http://www.pngmart.com/files/3/Health-PNG-File.png')
-    embed.set_footer(text='Time Stamp: ' + get_timestamp(), ts=False)
-    embed.post()
+# def send_report_discord(discord_Webhook, msg_desc):
+#     """ send_report_discord """
+#     embed = Webhook(discord_Webhook, color=1234123, msg='`Server Status Report:`')
+#     embed.set_title(title='System Overview - '+get_hostname(), url='http://www.mfwlab.com/')
+#     embed.set_desc(msg_desc)
+#     embed.set_thumbnail('http://www.pngmart.com/files/3/Health-PNG-File.png')
+#     embed.set_footer(text='Time Stamp: ' + get_timestamp(), ts=False)
+#     embed.post()
 
 # --------------------------------------------------------------------- #
 # Main
-
-if get_hostname() == HOST_ERIC:
-    print("ServerName: " + HOST_ERIC)
+print (get_hostname())
+if get_hostname() == HOST:
+    print("ServerName: " + HOST)
     print("Running: ")
     msg_desc = gather_info()
-    send_report_discord(eric_webhook, msg_desc)
-elif get_hostname() == HOST_NORC:
-    print("ServerName: " + HOST_NORC)
-    print("Running: ")
-    msg_desc = gather_info()
-    send_report_discord(norc_webhook, msg_desc)
-elif get_hostname() == HOST_XPS:
-    print("ServerName: " + HOST_XPS)
-    print("Running: ")
-    msg_desc = gather_info()
-    send_report_discord(xps13_webhook, msg_desc)
-elif get_hostname() == HOST_NORCCluster01:
-    print("ServerName: " + HOST_NORCCluster01)
-    print("Running: ")
-    msg_desc = gather_info()
-    send_report_discord(NORC_Cluster_01_webhook, msg_desc)
-elif get_hostname() == HOST_NORCCluster02:
-    print("ServerName: " + HOST_NORCCluster02)
-    print("Running: ")
-    msg_desc = gather_info()
-    send_report_discord(NORC_Cluster_02_webhook, msg_desc)
+    #send_report_discord(eric_webhook, msg_desc)
+    print(msg_desc)
+# elif get_hostname() == HOST_NORC:
+#     print("ServerName: " + HOST_NORC)
+#     print("Running: ")
+#     msg_desc = gather_info()
+#     #send_report_discord(norc_webhook, msg_desc)
+# elif get_hostname() == HOST_XPS:
+#     print("ServerName: " + HOST_XPS)
+#     print("Running: ")
+#     msg_desc = gather_info()
+#     #send_report_discord(xps13_webhook, msg_desc)
+# elif get_hostname() == HOST_NORCCluster01:
+#     print("ServerName: " + HOST_NORCCluster01)
+#     print("Running: ")
+#     msg_desc = gather_info()
+#     #send_report_discord(NORC_Cluster_01_webhook, msg_desc)
+# elif get_hostname() == HOST_NORCCluster02:
+#     print("ServerName: " + HOST_NORCCluster02)
+#     print("Running: ")
+#     msg_desc = gather_info()
+#     #send_report_discord(NORC_Cluster_02_webhook, msg_desc)
 
 # --------------------------------------------------------------------- #
